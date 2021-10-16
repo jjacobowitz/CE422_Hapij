@@ -22,17 +22,17 @@ Youngs = 200e9      # Pa; Young's modulus of steel
 P1 = 10000          # N; force 1 (vertical force on node B)
 P2 = 25000          # N; force 2 (vertical force on node L)
 
-A = {"x":{"AB":1, "AC":-c, "Ax":1},
+A = {"x":{"AB":1, "AC":c, "Ax":1},
      "y":{"AC":-s, "Ay":-1}}
 B = {"x":{"AB":-1, "BC":-c, "BD":c},
      "y":{"BC":-s, "BD":-s}}
-C = {"x":{"AC":-c, "BC":c, "CD":1},
-     "y":{"AC":s, "BC":s}}
+C = {"x":{"AC":-c, "BC":c, "CD":1, "CE":c},
+     "y":{"AC":s, "BC":s, "CE":-s}}
 D = {"x":{"CD":-1, "BD":-c, "DE":-c, "DF":c},
      "y":{"BD":s, "DE":-s, "DF":-s}}
 E = {"x":{"CE":-c, "DE":c, "EF":1, "EG":c},
      "y":{"CE":s, "DE":s, "EG":-s}}
-F = {"x":{"DF":-c, "EF":-c, "FG":-c, "FH":c, "FI":1},
+F = {"x":{"DF":-c, "EF":-1, "FG":-c, "FH":c, "FI":1},
      "y":{"DF":s, "FG":-s, "FH":-s}}
 G = {"x":{"EG":-c, "FG":c, "GH":1},
      "y":{"EG":s, "FG":s}}
@@ -42,7 +42,7 @@ I = {"x":{"FI":-1, "HI":-c, "IJ":c, "IK":1},
      "y":{"HI":-s, "IJ":-s}}
 J = {"x":{"HJ":-1, "IJ":-c, "JK":c, "JL":1},
      "y":{"IJ":s, "JK":s}}
-K = {"x":{"IK":1, "JK":-c, "KL":c},
+K = {"x":{"IK":-1, "JK":-c, "KL":c},
      "y":{"JK":-s, "KL":-s}}
 L = {"x":{"JL":-1, "KL":-c},
      "y":{"KL":s}}
