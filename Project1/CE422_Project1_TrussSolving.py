@@ -27,7 +27,7 @@ P2 = 25000          # N; force 2 (negative vertical force on node L)
 
 # nodal x and y equations
 A = {"x":{"AB":1, "AC":c, "Ax":1},
-     "y":{"AC":-s, "Ay":-1}}
+     "y":{"AC":-s, "Ay":1}}
 B = {"x":{"AB":-1, "BC":-c, "BD":c},
      "y":{"BC":-s, "BD":-s}}
 C = {"x":{"AC":-c, "BC":c, "CD":1, "CE":c},
