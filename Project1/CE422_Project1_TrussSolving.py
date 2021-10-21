@@ -7,6 +7,7 @@ CE422 Finite Element Methods
 Project 1 truss solving
 """
 import numpy as np
+import pandas as pd
 
 # trig values
 theta = np.deg2rad(60)
@@ -17,7 +18,8 @@ c = np.cos(theta)
 length = 5              # m; member lengths
 area = 0.0254**2        # m^2; member cross-sectional area
 
-# material properties; shorturl.at/boCWY
+# material properties
+# source: http://www.matweb.com/search/datasheet.aspx?bassnum=MS0001&ckck=1
 Youngs = 200e9          # Pa; Young's modulus of steel
 yield_stress = 350e6    # Pa; yield stress of steel
 
@@ -104,4 +106,10 @@ reactions = dict()
 for reaction, load in zip(members[-3:], x[-3:]):
     print(f"{reaction}: {load[0]:.3f}N")
     reactions[reaction] = load[0]
-    
+
+# save into Pandas DataFrame
+df = pd.DataFrame(np.hstack((x[:-3], 
+                             stresses, 
+                             strains)), 
+                  index=members[:-3],
+                  columns=["Load [N]", "Stress [Pa]", "Strain"])
