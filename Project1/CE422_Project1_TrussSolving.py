@@ -62,26 +62,29 @@ members = ["AB", "AC", "BC", "BD", "CD", "CE", "DE", "DF", "EF", "EG", "FG",
            "Ax", "Ay", "Hy"]
 
 # "A" matrix for Ax=b; this is the matrix of x and y statics eqns for each node
-mat = np.zeros((24,24))
+A_matrix = np.zeros((24,24))
 
 # Fill "A" matrix with statics equations
 row = 0
 for node in nodes:
     for indx, member in enumerate(members):
-        mat[row][indx] = node["x"].get(member, 0)
-        mat[row+1][indx] = node["y"].get(member, 0)
-    row += 2        # every 2 rows is a new node; each row for x and y equation
+        A_matrix[row][indx] = node["x"].get(member, 0)
+        A_matrix[row+1][indx] = node["y"].get(member, 0)
+    row += 2        # every 2 rows is a new node; rows alternate x and y
         
 # "b" matrix for Ax=b; this is the matrix of loads
-P = np.zeros((24,1))
-P[3] = P1
-P[23] = P2
+b = np.zeros((24,1))
+b[3] = P1
+b[23] = P2
 
 # "x" matrix for Ax=b
-x = np.linalg.solve(mat, P)
+x = np.linalg.solve(A_matrix, b)
 
-# stress is force over area (don't apply to reactions)
-stresses = x[:-3]/area
+member_loads = x[:-3]
+reaction_forces = x[-3:].copy()
+
+# stress is force over area (doesn't apply to reactions)
+stresses = member_loads/area
 
 # stress = Youngs*strain -> strain = stress/Youngs
 strains = stresses/Youngs
@@ -103,12 +106,12 @@ for member, load, stress, strain in zip(members, x, stresses, strains, ):
 
 # print the reactions
 reactions = dict()
-for reaction, load in zip(members[-3:], x[-3:]):
+for reaction, load in zip(members[-3:], reaction_forces):
     print(f"{reaction}: {load[0]:.3f}N")
     reactions[reaction] = load[0]
 
 # save into Pandas DataFrame
-df = pd.DataFrame(np.hstack((x[:-3], 
+df = pd.DataFrame(np.hstack((member_loads, 
                              stresses, 
                              strains)), 
                   index=members[:-3],
