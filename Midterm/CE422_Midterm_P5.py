@@ -3,14 +3,12 @@
 Jared Jacobowitz
 Fall 2021
 CE422 Finite Element Methods
+Midterm
 
-Midterm Calculations
+Calculations for Problem 5
 """
 import numpy as np
 
-# =============================================================================
-# Problem 5
-# =============================================================================
 L12 = 91
 L23 = 75
 L13 = 48
